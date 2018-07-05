@@ -65,14 +65,6 @@ class GiftPage extends Component {
             transactions: {}
         };
 
-        const db = firebase.database();
-        const ref = db.ref(`users/`);
-        ref.on('value', ss => {
-            this.setState({ users: ss.val() });
-        });
-    }
-
-    componentDidMount() {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 const uid = user.uid;
@@ -81,10 +73,9 @@ class GiftPage extends Component {
                 ref.on('value', ss => {
                     const data = ss.val();
                     if (data) {
-                        this.setState({ id: data.id, name: `Guest #${data.id}`, credits: data.credits });
+                        this.setState({ ready: true, id: data.id, name: `Guest #${data.id}`, credits: data.credits });
 
                         db.ref(`users/${uid}/messages`).on('child_added', ss => {
-                            console.log(ss.val());
                             this.setState({ open: true, message: ss.val() });
                             setTimeout(() => this.setState({ open: false }), 3000);
                         });
@@ -92,6 +83,15 @@ class GiftPage extends Component {
                 });
                 setTimeout(() => this.setState({ ready: true }), 1000);
             }
+        });
+    }
+
+    componentDidMount() {
+        const db = firebase.database();
+        const ref = db.ref(`users/`);
+        ref.on('value', ss => {
+            console.log('users update!')
+            this.setState({ users: ss.val() });
         });
     }
 
@@ -115,7 +115,9 @@ class GiftPage extends Component {
                     const db = firebase.database();
                     const ref = db.ref(`users/${this.state.targetUser}`);
 
-                    this.donate(ref, val, `Guest #${this.state.id} has given ${val} credits to you!`).then(ss => this.setState({ ready: true, credits: this.state.credits - val }));
+                    this.donate(ref, val, `Guest #${this.state.id} has given ${val} credits to you!`).then(ss => this.setState({ ready: true }));
+
+                    db.ref(`users/${firebase.auth().currentUser.uid}/credits`).set(this.state.credits - val);
 
                     const targetUserId = this.state.users[this.state.targetUser].id;
 
@@ -166,7 +168,8 @@ class GiftPage extends Component {
     };
 
     render() {
-        if (!this.state.ready || !this.state.name || _.isEmpty(this.state.users)) {
+        console.log(this.state.ready, this.state.name === null, _.isEmpty(this.state.users));
+        if (!this.state.ready || this.state.name === null || _.isEmpty(this.state.users)) {
             return (
                 <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <GridLoader
