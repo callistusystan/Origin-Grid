@@ -47,7 +47,7 @@ class HomePage extends Component {
                 const uid = user.uid;
                 const db = firebase.database();
                 const ref = db.ref(`users/${uid}`);
-                ref.once('value', ss => {
+                ref.on('value', ss => {
                     const data = ss.val();
                     if (data) {
                         this.setState({ name: `Guest #${data.id}` });
