@@ -10,12 +10,12 @@ import User from '../images/user.png';
 import Credit from '../images/credit-card.png';
 import Snackbar from '@material-ui/core/Snackbar';
 
-const COLORS = ['#c0392b','#d35400','#f39c12','#27ae60','#2980b9','#9b59b6','#34495e'];
-const COLORS2 = ['#2ecc71','#f39c12','#d35400','#e74c3c','#c0392b','#9b59b6','#34495e'];
+const COLORS = [ '#c0392b', '#d35400', '#f39c12', '#27ae60', '#2980b9', '#9b59b6', '#34495e' ];
+const COLORS2 = [ '#2ecc71', '#f39c12', '#d35400', '#e74c3c', '#c0392b', '#9b59b6', '#34495e' ];
 
 const Action = props => {
     const body = (
-        <Fade in timeout={props.timeout} style={{ marginTop: 8, minWidth: 120 }}>
+        <Fade in timeout={props.timeout} style={{ marginTop: 8, minWidth: 120, ...props.style }}>
             <div style={{ flex: 1, display: 'flex', boxShadow: '0 2px 10px 0 rgba(0,0,0,0.3)' }}>
                 <div style={{
                     height: 80,
@@ -74,11 +74,6 @@ class GiftPage extends Component {
                     const data = ss.val();
                     if (data) {
                         this.setState({ ready: true, id: data.id, name: `Guest #${data.id}`, credits: data.credits });
-
-                        db.ref(`users/${uid}/messages`).on('child_added', ss => {
-                            this.setState({ open: true, message: ss.val() });
-                            setTimeout(() => this.setState({ open: false }), 3000);
-                        });
                     }
                 });
                 setTimeout(() => this.setState({ ready: true }), 1000);
@@ -90,7 +85,7 @@ class GiftPage extends Component {
         const db = firebase.database();
         const ref = db.ref(`users/`);
         ref.on('value', ss => {
-            console.log('users update!')
+            console.log('users update!');
             this.setState({ users: ss.val() });
         });
     }
@@ -99,15 +94,15 @@ class GiftPage extends Component {
         return ref.transaction(data => {
             data.credits += inc;
             if (!data.messages) data.messages = {};
-            data.messages[`${Date.now()}`] = message;
+            data.messages[ `${Date.now()}` ] = message;
             return data;
         });
     };
 
     renderValues = () => {
-        const values = [10, 20, 50, 100, 200];
+        const values = [ 10, 20, 50, 100, 200 ];
         return _.map(values, (val, i) => {
-            const backgroundColor = COLORS2[i%7];
+            const backgroundColor = COLORS2[ i % 7 ];
             return (
                 <Action onClick={() => {
                     this.setState({ donateView: false, ready: false });
@@ -119,113 +114,120 @@ class GiftPage extends Component {
 
                     db.ref(`users/${firebase.auth().currentUser.uid}/credits`).set(this.state.credits - val);
 
-                    const targetUserId = this.state.users[this.state.targetUser].id;
+                    const targetUserId = this.state.users[ this.state.targetUser ].id;
 
-                    this.setState({ open: true, message: `You have given ${val} credits to Guest #${targetUserId}!` });
+                    this.setState({ message: `You have given ${val} credits to Guest #${targetUserId}!` }, () => {
+                        this.setState({ open: true });
+                    });
 
                     setTimeout(() => this.setState({ open: false }), 3000);
-                }} img={Credit} style={{ backgroundColor }}
-                        timeout={i*200}
-                >
-                    {val} Credits
-                </Action>
-            );
-        });
-    };
+                }} img={Credit} style={{backgroundColor}}
+                    timeout={i*200}
+                    >
+                {val} Credits
+                    </Action>
+                    );
+                });
+        };
 
-    renderDonate = () => {
-        return (
+        renderDonate = () => {
+            return (
             <div style={{ marginTop: 28, display: 'flex', flexWrap: 'wrap' }}>
-                {this.renderValues()}
-                <div style={{ flex: 1, marginLeft: '0px 4px', minWidth: 120 }} />
+            {this.renderValues()}
+            <Action onClick={() => {
+            }} style={{ visibility: 'hidden', height: 1, minWidth: 120 }} />
             </div>
-        );
-    };
+            );
+        };
 
-    renderUsers = () => {
-        let i = 0;
-        return _.map(this.state.users, (user, key) => {
+        renderUsers = () => {
+            let i = 0;
+            return _.map(this.state.users, (user, key) => {
             if (user.id === this.state.id) return <div />;
             i += 200;
             const backgroundColor = COLORS[Math.floor(i/200)%7];
             return (
-                <Action onClick={() => this.setState({ donateView: true, targetUser: key })} img={User} style={{ backgroundColor }}
-                        timeout={i}
-                >
-                    Guest #{user.id}
-                </Action>
+            <Action onClick={() => this.setState({
+                donateView: true,
+                targetUser: key
+            })} img={User} style={{ backgroundColor }}
+            timeout={i}
+            >
+            Guest #{user.id}
+            </Action>
             );
         });
-    };
+        };
 
-    renderUserList = () => {
-        return (
-            <div style={{ marginTop: 28, display: 'flex', flexWrap: 'wrap' }}>
-                {this.renderUsers()}
-                <div style={{ flex: 1, marginLeft: '0px 4px', minWidth: 120 }} />
-            </div>
-        );
-    };
-
-    render() {
-        console.log(this.state.ready, this.state.name === null, _.isEmpty(this.state.users));
-        if (!this.state.ready || this.state.name === null || _.isEmpty(this.state.users)) {
+        renderUserList = () => {
             return (
-                <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <GridLoader
-                        color={'#ffb432'}
-                        loading={!this.state.ready}
-                    />
-                </div>
+            <div style={{ marginTop: 28, display: 'flex', flexWrap: 'wrap' }}>
+            {this.renderUsers()}
+            <Action onClick={() => {
+            }} style={{ visibility: 'hidden', minWidth: 120 }} />
+            </div>
+            );
+        };
+
+        render() {
+            console.log(this.state.ready, this.state.name === null, _.isEmpty(this.state.users));
+            if (!this.state.ready || this.state.name === null || _.isEmpty(this.state.users)) {
+            return (
+            <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <GridLoader
+            color={'#ffb432'}
+            loading={!this.state.ready}
+            />
+            </div>
             );
         }
 
-        return (
+            return (
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', marginTop: 70 }}>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: 16 }}>
-                    <Fade in mountOnEnter unmountOnExit>
-                        <h2 style={{ color: '#555' }}>Hi {this.state.name}</h2>
-                    </Fade>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: 16 }}>
+            <Fade in mountOnEnter unmountOnExit>
+            <h2 style={{ color: '#555' }}>Hi {this.state.name}</h2>
+            </Fade>
 
-                    <Fade in mountOnEnter unmountOnExit timeout={500} >
-                        <p style={{ marginTop: 0 }}>You have <strong>{this.state.credits}</strong> excess energy credits!</p>
-                    </Fade>
+            <Fade in mountOnEnter unmountOnExit timeout={500} >
+            <p style={{ marginTop: 0 }}>You have <strong>{this.state.credits}</strong> excess energy credits!</p>
+            </Fade>
 
-                    <Fade in mountOnEnter unmountOnExit timeout={500}>
-                        <h3 style={{ color: '#555', marginTop: 24 }}>Would you like to share some of that good energy?</h3>
-                    </Fade>
+            <Fade in mountOnEnter unmountOnExit timeout={500}>
+            <h3 style={{ color: '#555', marginTop: 24 }}>Would you like to share some of that good energy?</h3>
+            </Fade>
 
-                    {this.state.donateView ? this.renderDonate() : this.renderUserList()}
-                </div>
-
-                <div style={{ flex: 1 }}/>
-
-                <div style={{
-                    height: 80,
-                    justifySelf: 'flex-end',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    padding: '8px 16px',
-                    display: 'flex',
-                    boxShadow: '0 0 2px rgba(0, 0, 0, 0.3)'
-                }}>
-                    <p style={{ letterSpacing: 2 }}>SHARE WITH FRIENDS AND GET A <strong>20%</strong> DISCOUNT!</p>
-                    <img src={Facebook} style={{ marginLeft: 12, width: 40, height: 40 }}/>
-                    <img src={Twitter} style={{ marginLeft: 12, width: 40, height: 40 }}/>
-                </div>
-
-                <Snackbar
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                    open={this.state.open}
-                    onClose={() => this.setState({ open: false })}
-                    ContentProps={{
-                        'aria-describedby': 'message-id',
-                    }}
-                    message={<span id="message-id">{this.state.message}</span>}
-                />
+            {this.state.donateView ? this.renderDonate() : this.renderUserList()}
             </div>
-        );
-    }
-}
 
-export default GiftPage;
+            <div style={{ flex: 1 }}/>
+
+            <div style={{
+                height: 80,
+                justifySelf: 'flex-end',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '8px 16px',
+                display: 'flex',
+                boxShadow: '0 0 2px rgba(0, 0, 0, 0.3)'
+            }}>
+            <p style={{ letterSpacing: 2 }}>SHARE WITH FRIENDS AND GET A <strong>20%</strong> DISCOUNT!</p>
+            <img src={Facebook} style={{ marginLeft: 12, width: 40, height: 40 }}/>
+            <img src={Twitter} style={{ marginLeft: 12, width: 40, height: 40 }}/>
+            </div>
+
+            <Snackbar
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            open={this.state.open}
+            onClose={() => this.setState({ open: false })}
+            ContentProps={{
+                'aria-describedby': 'message-id',
+            }}
+            message={<span id="message-id">{this.state.message}</span>}
+            />
+            </div>
+            );
+        }
+        }
+
+        export default GiftPage;

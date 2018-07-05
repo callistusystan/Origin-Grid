@@ -25,13 +25,13 @@ class App extends Component {
                     const data = ss.val();
                     if (data) {
                         this.setState({ id: data.id, name: `Guest #${data.id}`, credits: data.credits });
-
-                        db.ref(`users/${uid}/messages`).on('child_added', ss => {
-                            console.log(ss.val());
-                            this.setState({ open: true, message: ss.val() });
-                            setTimeout(() => this.setState({ open: false }), 3000);
-                        });
                     }
+                });
+
+                db.ref(`users/${uid}/messages`).on('child_added', ss => {
+                    console.log(ss.val());
+                    this.setState({ message: ss.val() }, () => this.setState({ open: true }));
+                    setTimeout(() => this.setState({ open: false }), 3000);
                 });
                 setTimeout(() => this.setState({ ready: true }), 1000);
             }
