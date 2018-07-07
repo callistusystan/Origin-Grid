@@ -22,7 +22,7 @@ Feel free to try out our [app hosted on firebase](https://origin-grid.firebaseap
 
 ## Screenshots
 
-<div>
+<div style="display: flex;justify-content: space-between;align-items: center">
 	<img src="/screenshots/screenshot1.png" width="30%" style="margin-left: 4;flex: 1;">
 	<img src="/screenshots/screenshot2.png" width="30%" style="margin-left: 4;flex: 1;">
 	<img src="/screenshots/screenshot3.png" width="30%" style="margin-left: 4;flex: 1;">
