@@ -22,9 +22,11 @@ Feel free to try out our [app hosted on firebase](https://origin-grid.firebaseap
 
 ## Screenshots
 
-<img src="/screenshots/screenshot1.png" width="100%">
-<img src="/screenshots/screenshot2.png" width="100%">
-<img src="/screenshots/screenshot3.png" width="100%">
+<div>
+	<img src="/screenshots/screenshot1.png" width="30%" style="margin-left: 4;flex: 1;">
+	<img src="/screenshots/screenshot2.png" width="30%" style="margin-left: 4;flex: 1;">
+	<img src="/screenshots/screenshot3.png" width="30%" style="margin-left: 4;flex: 1;">
+</div>
 
 
 ### Usage ###
