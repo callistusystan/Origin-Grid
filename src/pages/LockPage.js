@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Fade } from '@material-ui/core';
 import Clock from '../images/clock.png';
-import Facebook from '../images/facebook.png';
-import Twitter from '../images/twitter.png';
 import { Link } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
 import moment from 'moment';
@@ -12,7 +10,7 @@ import { GridLoader } from 'react-spinners';
 const Action = props => {
     const body = (
         <Fade in timeout={props.timeout}>
-            <div style={{ flex: 1, display: 'flex', boxShadow: '0 2px 10px 0 rgba(0,0,0,0.3)' }}>
+            <div style={{ flex: 1, display: 'flex', boxShadow: '0 2px 10px 0 rgba(0,0,0,0.3)', cursor: 'pointer' }}>
                 <div style={{
                     height: 80,
                     flex: 1,
@@ -120,7 +118,7 @@ class LockPage extends Component {
         const curPrice = dataset.datasets[ 0 ].data[ dataset.datasets[ 0 ].data.length - 1 ];
 
         return (
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', marginTop: 70 }}>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: 16 }}>
                     <Fade in mountOnEnter unmountOnExit>
                         <h2 style={{ color: '#555' }}>Lock Energy Prices</h2>
@@ -172,22 +170,6 @@ class LockPage extends Component {
                     </div>
 
                     {this.state.timer > 0 ? this.renderTimer(curPrice) : <div/>}
-                </div>
-
-                <div style={{ flex: 1 }}/>
-
-                <div style={{
-                    height: 80,
-                    justifySelf: 'flex-end',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    padding: '8px 16px',
-                    display: 'flex',
-                    boxShadow: '0 0 2px rgba(0, 0, 0, 0.3)'
-                }}>
-                    <p style={{ letterSpacing: 2 }}>SHARE WITH FRIENDS AND GET A <strong>20%</strong> DISCOUNT!</p>
-                    <img src={Facebook} style={{ marginLeft: 12, width: 40, height: 40 }}/>
-                    <img src={Twitter} style={{ marginLeft: 12, width: 40, height: 40 }}/>
                 </div>
             </div>
         );

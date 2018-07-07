@@ -13,7 +13,7 @@ import { GridLoader } from 'react-spinners';
 
 const Action = props => {
     return (
-        <Link to={props.to} style={{ textDecoration: 'none', flex: 1, margin: '0px 4px', display: 'flex' }}>
+        <Link to={props.to} style={{ textDecoration: 'none', flex: 1, margin: '0px 4px', display: 'flex', cursor: 'pointer' }}>
             <Fade in timeout={props.timeout}>
                 <div style={{ flex: 1, display: 'flex', boxShadow: '0 2px 10px 0 rgba(0,0,0,0.3)' }}>
                     <div style={{
@@ -23,7 +23,7 @@ const Action = props => {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         backgroundColor: '#e74c3c',
-                        padding: '8px 16px',
+                        padding: '6px 16px',
                         ...props.style
                     }}>
                         <h3 style={{ color: '#FFF' }}>{props.children}</h3>
@@ -71,7 +71,7 @@ class HomePage extends Component {
         }
 
         return (
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', marginTop: 70 }}>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: 16 }}>
                     <Fade in mountOnEnter unmountOnExit>
                         <h2 style={{ color: '#555' }}>Welcome back, {this.state.name}</h2>
@@ -83,7 +83,7 @@ class HomePage extends Component {
 
                     <div style={{ marginTop: 16, display: 'flex', alignItems: 'center' }}>
                         <Action to='/solar' img={Solar} style={{ backgroundColor: '#e74c3c' }} timeout={400}>
-                            Subscribe for Solar
+                            Solar Plans
                         </Action>
                         <Action to='/battery' img={Battery} style={{ backgroundColor: '#f39c12' }} timeout={600}>
                             Home Battery Plans
@@ -105,22 +105,6 @@ class HomePage extends Component {
                         </Action>
                         <div style={{ flex: 1, margin: '0px 4px' }}/>
                     </div>
-                </div>
-
-                <div style={{ flex: 1 }}/>
-
-                <div style={{
-                    height: 80,
-                    justifySelf: 'flex-end',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    padding: '8px 16px',
-                    display: 'flex',
-                    boxShadow: '0 0 2px rgba(0, 0, 0, 0.3)'
-                }}>
-                    <p style={{ letterSpacing: 2 }}>SHARE WITH FRIENDS AND GET A <strong>20%</strong> DISCOUNT!</p>
-                    <img src={Facebook} style={{ marginLeft: 12, width: 40, height: 40 }}/>
-                    <img src={Twitter} style={{ marginLeft: 12, width: 40, height: 40 }}/>
                 </div>
             </div>
         );

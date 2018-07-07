@@ -29,7 +29,7 @@ class ErrorPage extends Component {
         }
 
         return (
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', marginTop: 70 }}>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <div style={{
                     flex: 1,
                     display: 'flex',
@@ -54,22 +54,6 @@ class ErrorPage extends Component {
                             </p>
                         </div>
                     </Fade>
-                </div>
-
-                <div style={{ flex: 1 }}/>
-
-                <div style={{
-                    height: 80,
-                    justifySelf: 'flex-end',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    padding: '8px 16px',
-                    display: 'flex',
-                    boxShadow: '0 0 2px rgba(0, 0, 0, 0.3)'
-                }}>
-                    <p style={{ letterSpacing: 2 }}>SHARE WITH FRIENDS AND GET A <strong>20%</strong> DISCOUNT!</p>
-                    <img src={Facebook} style={{ marginLeft: 12, width: 40, height: 40 }}/>
-                    <img src={Twitter} style={{ marginLeft: 12, width: 40, height: 40 }}/>
                 </div>
             </div>
         );

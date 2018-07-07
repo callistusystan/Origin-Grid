@@ -7,6 +7,9 @@ import ErrorPage from './pages/ErrorPage';
 import GiftPage from './pages/GiftPage';
 import firebase from 'firebase';
 import Snackbar from '@material-ui/core/Snackbar';
+import IPhoneX from './components/IPhoneX';
+import Facebook from './images/facebook.png';
+import Twitter from './images/twitter.png';
 
 class App extends Component {
 
@@ -38,13 +41,15 @@ class App extends Component {
         });
     }
 
-    render() {
+    renderBody = () => {
+        const isMobile = ('ontouchstart' in document.documentElement && navigator.userAgent.match(/Mobi/));
+
         return (
             <div style={styles.container}>
                 <TopBar/>
                 <div style={{
                     flex: 1,
-                    minHeight: '100vh',
+                    minHeight: isMobile ? 'calc(100% - 72px - 100px)' : 'calc(100% - 102px - 100px)',
                     display: 'flex',
                     flexDirection: 'column'
                 }}>
@@ -54,6 +59,21 @@ class App extends Component {
                         <Route path='/gift' component={GiftPage}/>
                         <Route path='/' component={ErrorPage}/>
                     </Switch>
+                </div>
+
+                <div style={{
+                    fontSize: '14px',
+                    height: 80,
+                    justifySelf: 'flex-end',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: '8px 16px',
+                    display: 'flex',
+                    boxShadow: '0 0 2px rgba(0, 0, 0, 0.3)'
+                }}>
+                    <p style={{ letterSpacing: 2 }}>SHARE WITH FRIENDS AND GET A <strong>20%</strong> DISCOUNT!</p>
+                    <img src={Facebook} style={{ marginLeft: 12, width: 40, height: 40 }}/>
+                    <img src={Twitter} style={{ marginLeft: 12, width: 40, height: 40 }}/>
                 </div>
 
                 <Snackbar
@@ -67,12 +87,31 @@ class App extends Component {
                 />
             </div>
         );
+    };
+
+    render() {
+        const isMobile = ('ontouchstart' in document.documentElement && navigator.userAgent.match(/Mobi/));
+
+        if (isMobile) {
+            return (
+                <div style={{ height: '100vh', width: '100%', display: 'flex', flexDirection: 'column', position: 'relative !important' }}>
+                    {this.renderBody()}
+                </div>
+            );
+        }
+        return (
+            <div id="gradient">
+                <IPhoneX>
+                    {this.renderBody()}
+                </IPhoneX>
+            </div>
+        );
     }
 }
 
 const styles = {
     container: {
-        minHeight: '100vh !important',
+        height: '100%',
         width: '100%',
         display: 'flex',
         flexDirection: 'column'
