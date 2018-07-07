@@ -8,8 +8,9 @@
 }
 
 #gradient {
-    width: 100vw;
-    height: 100vh;
+    min-width: 100%;
+    min-height: 100vh;
+    padding: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
