@@ -136,6 +136,7 @@ class GiftPage extends Component {
                 {this.renderValues()}
                 <Action onClick={() => {
                 }} style={{ visibility: 'hidden', height: 1, minWidth: 120 }}/>
+                <div style={{ height: 16, width: '100%' }} />
             </div>
         );
     };
@@ -165,6 +166,7 @@ class GiftPage extends Component {
                 {this.renderUsers()}
                 <Action onClick={() => {
                 }} style={{ visibility: 'hidden', minWidth: 120, height: 1 }}/>
+                <div style={{ height: 16, width: '100%' }} />
             </div>
         );
     };
@@ -186,10 +188,10 @@ class GiftPage extends Component {
         const isMobile = ('ontouchstart' in document.documentElement && navigator.userAgent.match(/Mobi/));
 
         return (
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', marginBottom: 16 }}>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <div className='scroll--simple'
-                     style={{ flex: 1, display: 'flex', flexDirection: 'column', marginBottom: 16 }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', padding: 16, marginBottom: 16 }}>
+                     style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', padding: 16 }}>
                         <Fade in mountOnEnter unmountOnExit>
                             <h2 style={{ color: '#555' }}>Hi {this.state.name}</h2>
                         </Fade>
