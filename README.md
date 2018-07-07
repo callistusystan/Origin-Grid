@@ -15,8 +15,11 @@ This project was made with React, Redux and Firebase
 Feel free to try out our [app hosted on firebase](https://origin-grid.firebaseapp.com/) :fire:
 
 
-## Development Team
-- [Callistus Tan](https://github.com/callistusystan)
+## Team
+- [Callistus Tan](https://github.com/callistusystan) (Developer)
+- Jonathon Rau (Idea + Pitcher)
+- Purbali Biswas (Idea)
+- Freddy Ye (Idea)
 
 
 
