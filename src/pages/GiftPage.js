@@ -216,7 +216,9 @@ class GiftPage extends Component {
                     open={this.state.open}
                     ContentProps={{
                         'aria-describedby': 'snackbar-fab-message-id',
-                        className: classes.snackbarContent,
+                        classes: {
+                            root: classes.snackbarContent
+                        },
                     }}
                     autoHideDuration={1000000}
                     onClose={() => this.setState({ open: false })}
@@ -229,10 +231,13 @@ class GiftPage extends Component {
 
 const styles = {
     root: {
-        position: 'absolute'
+        position: 'absolute',
+        width: '100%'
     },
     snackbarContent: {
-        position: 'relative'
+        left: 0,
+        right: 0,
+        width: '100%'
     }
 };
 

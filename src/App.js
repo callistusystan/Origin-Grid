@@ -10,6 +10,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IPhoneX from './components/IPhoneX';
 import Facebook from './images/facebook.png';
 import Twitter from './images/twitter.png';
+import { withStyles } from '@material-ui/core/styles';
 
 class App extends Component {
 
@@ -43,6 +44,8 @@ class App extends Component {
 
     renderBody = () => {
         const isMobile = ('ontouchstart' in document.documentElement && navigator.userAgent.match(/Mobi/));
+
+        const { classes } = this.props;
 
         return (
             <div style={styles.container}>
@@ -78,10 +81,16 @@ class App extends Component {
 
                 <Snackbar
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                    classes={{
+                        root: isMobile ? undefined : classes.root
+                    }}
                     open={this.state.open}
                     onClose={() => this.setState({ open: false })}
                     ContentProps={{
-                        'aria-describedby': 'message-id',
+                        'aria-describedby': 'snackbar-fab-message-id',
+                        classes: {
+                            root: classes.snackbarContent
+                        },
                     }}
                     message={<span id="message-id">{this.state.message}</span>}
                 />
@@ -115,7 +124,16 @@ const styles = {
         width: '100%',
         display: 'flex',
         flexDirection: 'column'
+    },
+    root: {
+        position: 'absolute',
+        width: '100%'
+    },
+    snackbarContent: {
+        left: 0,
+        right: 0,
+        width: '100%'
     }
 };
 
-export default App;
+export default withStyles(styles)(App);
